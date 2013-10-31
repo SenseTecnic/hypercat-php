@@ -84,16 +84,16 @@ class Hypercat {
     //log outputs
     // $this->logOutput("Request url: ".$requestUrl);
     // $this->logOutput("Response: ".$response);
-
     $json = json_decode($response);
     return $response;
   }
+
   /**
    * Get the JSON response by searching for a catalogue
-   * @param string array $params (can only contain "rel", "val" or "href")
+   * @param string array $params (fields can only be "rel", "val" or "href")
    * @param int $offset
    * @param int $limit
-   * @return string
+   * @return string JSON
    */
   public function searchCatalogue ($searchParams, $offset, $limit) {
   // public function searchCatalogue ($catalogue, $rel, $val, $href, $offset, $limit) {
@@ -121,7 +121,7 @@ class Hypercat {
   /**
    * Update an existing catalogue item
    * @param string $itemUri
-   * @param string $item
+   * @param string $item (JSON)
    * @return string
    */
   public function updateItem ($itemUri, $item) {
@@ -141,12 +141,11 @@ class Hypercat {
   /**
    * Insert new catalogue item
    * @param string $itemUri
-   * @param string JSON $item
+   * @param string $item (JSON)
    */
   public function insertItem ($item) {
     //POST request
     //success: return HTTP location header with url of catalogue where its added
-    // return HTTP 201 code
     $requestUrl=$this->getFullCatalogueUrl();
     $data=$item;
     $key = $this->getKey();
@@ -181,7 +180,6 @@ class Hypercat {
   private function processHTTPRequest($requestType, $url, $data=null, $key=null){
     // Clear response_info
     $this->response_info = array();
-
     // Initialise cURL
     $ch = curl_init();
     //set url
@@ -191,7 +189,6 @@ class Hypercat {
 
     if ($requestType == "DELETE")
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-
     if ($requestType != "GET" and $data!=null){
       //'Postfields' for POST or PUT requests
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requestType);
@@ -199,7 +196,6 @@ class Hypercat {
       curl_setopt($ch, CURLOPT_POST, TRUE);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
-
     //set Key in request header if not null
     if ($key!=null){
       if (base64_decode($key,true))
@@ -210,7 +206,6 @@ class Hypercat {
         $headerRel.': '.$key,
       ));
     }
-
     $response = curl_exec($ch);
     $response_info = curl_getinfo($ch);
     // $this->logOutput("Response Info: ".$response_info);
@@ -218,14 +213,18 @@ class Hypercat {
     return $response;
   }
 
-  public function checkHTTPcode($expected_http_code){
+  /**
+   * Helper function to check HTTP response code
+   */
+  private function checkHTTPcode($expected_http_code){
     if ( $this->response_info[http_code] != $expected_http_code )
       throw new Exception('Error: Unexpected HTTP Code '.$this->response_info[http_code].' is returned!');
   }
-
+  /**
+   * Log outputs to an external file
+   */
   private function logOutput($content){
     error_log($content."\n", 3, "../log/output.log");
   }
-
 }
 ?>
