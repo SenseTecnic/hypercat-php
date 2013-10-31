@@ -67,7 +67,6 @@ class Hypercat {
    * @return string JSON
    */
   public function getCatalogue ($offset, $limit) {
-    //check status code is HTTP 200
     $requestUrl="";
     $param= array(
       "offset"=>$offset,
@@ -78,7 +77,6 @@ class Hypercat {
     $data=null;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("GET",$requestUrl, $data, $key);
-
     $this->checkHTTPcode(200);
 
     //log outputs
@@ -90,7 +88,7 @@ class Hypercat {
 
   /**
    * Get the JSON response by searching for a catalogue
-   * @param string array $params (fields can only be "rel", "val" or "href")
+   * @param string array $params (search parameters can only be "rel", "val", "href")
    * @param int $offset
    * @param int $limit
    * @return string JSON
@@ -107,13 +105,11 @@ class Hypercat {
     $data=null;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("GET",$requestUrl, $data, $key);
-
     $this->checkHTTPcode(200);
     
     //log outputs
     // $this->logOutput("Request url: ".$requestUrl);
     // $this->logOutput("Response: ".$response);
-
     $json = json_decode($response);
     return $response;
   }
@@ -122,7 +118,7 @@ class Hypercat {
    * Update an existing catalogue item
    * @param string $itemUri
    * @param string $item (JSON)
-   * @return string
+   * @return string JSON(optional)
    */
   public function updateItem ($itemUri, $item) {
     $param= array(
