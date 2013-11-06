@@ -9,7 +9,7 @@ Example Usage
 1- Retrieving a Catalogue
 
 ```
-	config=("key"=> "api_key_here",
+	$config=("key"=> "api_key_here",
             "baseUrl"=> "base_url_here",
             "catalogueUri"=> "catalogue_uri_here"
             );
@@ -23,7 +23,7 @@ Example Usage
 * The accepted simple search parameters include: "rel", "val" and "href". And they are optional.
 
 ```
-	config={"key"=> "api_key_here",
+	$config={"key"=> "api_key_here",
             "baseUrl"=> "base_url_here",
             "catalogueUri"=> "catalogue_uri_here"
             };
@@ -32,7 +32,7 @@ Example Usage
 	$limit = 10; //set page limit to 10
 
 	// Set search parameters
-	param={"rel"=> "rel_here",
+	$param={"rel"=> "rel_here",
             "val"=> "vall_here",
             "href"=> "href_here"
             };
