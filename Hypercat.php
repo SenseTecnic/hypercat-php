@@ -77,11 +77,7 @@ class Hypercat {
     $data=null;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("GET",$requestUrl, $data, $key);
-    $this->checkHTTPcode(200);
-
-    //log outputs
-    // $this->logOutput("Request url: ".$requestUrl);
-    // $this->logOutput("Response: ".$response);
+    // $this->checkHTTPcode(200);
     $json = json_decode($response);
     return $response;
   }
@@ -105,11 +101,7 @@ class Hypercat {
     $data=null;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("GET",$requestUrl, $data, $key);
-    $this->checkHTTPcode(200);
-    
-    //log outputs
-    // $this->logOutput("Request url: ".$requestUrl);
-    // $this->logOutput("Response: ".$response);
+    // $this->checkHTTPcode(200);
     $json = json_decode($response);
     return $response;
   }
@@ -129,7 +121,7 @@ class Hypercat {
     $data=$item;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("PUT",$requestUrl, $data, $key);
-    $this->checkHTTPcode(200);
+    // $this->checkHTTPcode(200);
     $json = json_decode($response);
     return $response;
   }
@@ -146,7 +138,7 @@ class Hypercat {
     $data=$item;
     $key = $this->getKey();
     $response=$this->processHTTPRequest("POST",$requestUrl, $item, $key);
-    $this->checkHTTPcode(201);
+    // $this->checkHTTPcode(201);
     //TODO: return HTTP location header with url of catalogue
   }
 
@@ -163,7 +155,7 @@ class Hypercat {
     $key = $this->getKey();
     $requestUrl=$this->getFullCatalogueUrl()."?".$query;
     $response=$this->processHTTPRequest("DELETE",$requestUrl, $data, $key);
-    $this->checkHTTPcode(200);
+    // $this->checkHTTPcode(200);
   }
 
   /**
@@ -195,7 +187,7 @@ class Hypercat {
     //set Key in request header if not null
     if ($key!=null){
       if (base64_decode($key,true))
-        $headerRel="Aurthorization";
+        $headerRel="Authorization";
       else
         $headerRel="x-api-key";
       curl_setopt($ch, CURLOPT_HTTPHEADER, array(
